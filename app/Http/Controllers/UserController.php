@@ -9,10 +9,11 @@ use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
 {
     public function register(UserRequest $request)
-    {
-        $request['password'] = Hash::make($request->password);
+    {        
+        $dados = $request->validated();
+        $dados['password'] = Hash::make($dados['password']);    
 
-        $user = User::create($request->validated());
+        $user = User::create($dados);
 
         return response()->json([
             'mensage' => 'Usuário Criado com Sucesso!!',
