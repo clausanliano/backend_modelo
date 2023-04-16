@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Permission;
-use App\Http\Requests\StorePermissionRequest;
-use App\Http\Requests\UpdatePermissionRequest;
-use App\Http\Resources\PermissionResource;
+use App\Models\Role;
+use App\Http\Requests\StoreRoleRequest;
+use App\Http\Requests\UpdateRoleRequest;
+use App\Http\Resources\RoleResource;
 use App\Traits\ApiResponseTrait;
 
-class PermissionController extends Controller
+class RoleController extends Controller
 {
     use ApiResponseTrait;
 
     public function index()
     {
         try {
-            $lista = PermissionResource::collection(Permission::all());
+            $lista = RoleResource::collection(Role::all());
             $data = [
                 'lista' =>  $lista,
             ];
@@ -29,15 +29,18 @@ class PermissionController extends Controller
         }
     }
 
-    public function store(StorePermissionRequest $request)
+
+    public function store(StoreRoleRequest $request)
     {
         try {
-            $permission = Permission::create($request->validated());
-            $objeto = new PermissionResource($permission);
+            $permission = Role::create($request->validated());
+
+            $objeto = new RoleResource($permission);
             $data = [
                 'objeto' =>  $objeto,
             ];
-            $mensagem = 'Permissão cadastrada com sucesso';
+
+            $mensagem = 'Regra cadastrada com sucesso';
 
             return $this->success($mensagem, $data);
         } catch (\Throwable $th) {
@@ -47,10 +50,11 @@ class PermissionController extends Controller
         }
     }
 
-    public function show(Permission $permission)
+
+    public function show(Role $role)
     {
         try {
-            $objeto = new PermissionResource($permission);
+            $objeto = new RoleResource($role);
             $data = [
                 'objeto' =>  $objeto,
             ];
@@ -64,15 +68,15 @@ class PermissionController extends Controller
         }
     }
 
-    public function update(UpdatePermissionRequest $request, Permission $permission)
+    public function update(UpdateRoleRequest $request, Role $role)
     {
         try {
-            $permission->update($request->validated());
-            $objeto = new PermissionResource($permission);
+            $role->update($request->validated());
+            $objeto = new RoleResource($role);
             $data = [
                 'objeto' =>  $objeto,
             ];
-            $mensagem = 'Permissão editada com sucesso';
+            $mensagem = 'Regra editada com sucesso';
 
             return $this->success($mensagem, $data);
         } catch (\Throwable $th) {
@@ -82,16 +86,17 @@ class PermissionController extends Controller
         }
     }
 
-    public function destroy(Permission $permission)
+
+    public function destroy(Role $role)
     {
         try {
-            $objeto = new PermissionResource($permission);
+            $objeto = new RoleResource($role);
             $data = [
                 'objeto' =>  $objeto,
             ];
-            $mensagem = 'Permissão apagada com sucesso';
+            $mensagem = 'Regra apagada com sucesso';
 
-            $permission->delete();
+            $role->delete();
 
             return $this->success($mensagem, $data);
         } catch (\Throwable $th) {
