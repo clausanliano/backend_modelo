@@ -15,12 +15,14 @@ class AuthController extends Controller
     {
         if (Auth::attempt($request->only(['email', 'password']))) {
             $user = new UserResource(Auth::user());
-            $token = Auth::user()->createToken('API_TOKEN')->plainTextToken;
+            $abilities = $user->permissions()->pluck('nome')->toArray();
+            $token = Auth::user()->createToken('API_TOKEN', $abilities)->plainTextToken;
 
             return response()->json([
                 'message' => 'Login realizado com sucesso!!!',
                 'token' => $token,
                 'ususario' => $user,
+                'abilities' => $abilities,
             ]);
         }else{
         throw ValidationException::withMessages([

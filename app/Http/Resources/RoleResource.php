@@ -13,6 +13,7 @@ return [
             'id'    => $this->id,
             'nome'  =>  $this->nome,
             'descricao' =>  $this->descricao,
+            //'permissoes' => PermissionResource::collection($this->permissions),
         ];
     }
 }
